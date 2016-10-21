@@ -4,6 +4,13 @@
 
 This is a sample of a Web API entrypoint into a microservice ecosystem.  This is the Web API in which clients will interact with a domain's entire microservice architecture.  This was built using [Express](http://expressjs.com/) and [Seneca](http://senecajs.org/)
 
+## Goals
+
+1. **Conventions-based service routing:** Developers should never touch this codebase save for one-off custom routes or infrastructure changes, such as logging and monitoring
+  * **Note**: Only applies for AMQP services
+1. **Standardized error handling**: Error payloads are well understood and can specify the HTTP status codes the Web API will return
+1. **Service client agnosticism**: Services can be over any protocol, be it HTTP, TCP, AMQP, or any other type of transport.
+
 ## Prerequisites
 
 1. [RabbitMQ](https://www.rabbitmq.com/install-homebrew.html)
@@ -32,13 +39,6 @@ While Seneca does support TCP and HTTP point-to-point microservices, it is of my
 1. AMQP offers durability.  If messages fail, they can be retried at a later time.  This is great for "push style" integrations, such as social media firehoses.
 1. Easier infrastructure integration.  With a point-to-point system, you have to deal potentially with firewall and security concerns.  AMQP is a standard port and is designed for high throughput.
 1. While some developers are concerned with the "hops" between the API to the MQ to the Service and back, the latency introduced is minimal.  Observed response times at load for a baseline call hovered at around 150ms.
-
-## Goals
-
-1. **Conventions-based service routing:** Developers should never touch this codebase save for one-off custom routes or infrastructure changes, such as logging and monitoring
-  * **Note**: Only applies for AMQP services
-1. **Standardized error handling**: Error payloads are well understood and can specify the HTTP status codes the Web API will return
-1. **Service client agnosticism**: Services can be over any protocol, be it HTTP, TCP, AMQP, or any other type of transport.
 
 ## Conventions
 
