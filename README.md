@@ -1,4 +1,4 @@
-# lids-loyalty-main-api
+# seneca-service-api
 
 ## Overview
 
