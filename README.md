@@ -19,6 +19,11 @@ This is a sample of a Web API entrypoint into a microservice ecosystem.  This is
 1. `npm start`
 1. The Web API will be served up on `localhost:3001` by default
 
+## Service Ecosystem Examples
+
+* [seneca-amqp-service](https://github.com/ericnograles/seneca-amqp-service)
+* [seneca-tcp-service](https://github.com/ericnograles/seneca-tcp-service)
+
 ## Goals
 
 1. **Conventions-based service routing:** Developers should never touch this codebase save for one-off custom routes or infrastructure changes, such as logging and monitoring
@@ -70,5 +75,4 @@ This is a sample of a Web API entrypoint into a microservice ecosystem.  This is
 
 ## TODO / Nice to Haves
 
-1. Develop a convention to switch the client for a service call. Perhaps utilize a query string?  e.g. `http://localhost:3001/api/v1/facebook/feed?client=tcp` can configure the client with a proper TCP Seneca client?
 1. Add [Winston](https://github.com/winstonjs/winston) logging
