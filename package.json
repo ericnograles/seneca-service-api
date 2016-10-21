@@ -6,6 +6,9 @@
   "scripts": {
     "start": "node index.js --seneca.log.error"
   },
+  "engines": {
+    "node": ">= 6.9.0"
+  },
   "repository": {
     "url": "https://github.com/ericnograles/seneca-service-api.git",
     "type": "git"
