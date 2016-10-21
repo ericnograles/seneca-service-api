@@ -40,7 +40,7 @@ This is a sample of a Web API entrypoint into a microservice ecosystem.  This is
 
 ### Service Payloads
 
-* For anything that had a body payload to be sent to a microservice (e.g. for a POST or PUT), the API expects it to be in the following structure when it is sent to the API
+* For anything that had a body payload to be sent to a microservice (e.g. for a POST or PUT), the API expects it to be in the following structure when it is sent to the API (i.e. `req.body` in Express)
 
 ```javascript
 {
@@ -59,7 +59,7 @@ This is a sample of a Web API entrypoint into a microservice ecosystem.  This is
     // The contents of req.query
   }, 
   "data": {
-    // The contents of req.body
+    // The contents of req.body.data
   }
 }
 ```
