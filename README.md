@@ -17,7 +17,7 @@ This is a sample of a Web API entrypoint into a microservice ecosystem.  This is
 1. Clone this repo
 1. `yarn install`
 1. `npm start`
-1. The Web API will be served up on `localhost:3001` by default
+1. The Web API will be served up the port specified by the `PORT` environment variable, or on port 3001
 
 ## Service Ecosystem Examples
 
