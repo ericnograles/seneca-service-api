@@ -1,0 +1,23 @@
+{
+  "name": "lids-loyalty-main-api",
+  "version": "1.0.0",
+  "description": "The Main WebAPI for the Lids Loyalty PoC",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js --seneca.log.error"
+  },
+  "repository": {
+    "url": "https://github.com/ericnograles/lids-loyalty-main-api.git",
+    "type": "git"
+  },
+  "author": "Eric Nograles <grales@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "seneca": "^3.2.1",
+    "seneca-amqp-transport": "^2.1.0",
+    "seneca-web": "^2.0.0",
+    "seneca-web-adapter-express": "^1.0.2"
+  }
+}
