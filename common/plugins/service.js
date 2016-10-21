@@ -16,11 +16,12 @@ module.exports = function serviceRoutes() {
       var role = params[0];
       var cmd = params.length > 1 ? params[1] : 'index';
       var pin = `role:${role},cmd:${cmd}`;
+      var clientProtocol = msg.request$.query.protocol || 'amqp';
 
       var client = require('seneca')()
           .use('seneca-amqp-transport')
           .client({
-            type: 'amqp',
+            type: clientProtocol,
             pin: pin,
             url: process.env.AMQP_URL || 'amqp://127.0.0.1'
           });
@@ -36,6 +37,15 @@ module.exports = function serviceRoutes() {
         // FYI, done(err) will bring down the entire process, use with care
         if (err || res.error) {
           var statusCode;
+          var errorPayload = {};
+
+          // Sanitized error outputs
+          if (err) {
+            errorPayload.message = err.msg;
+          } else if (res.error) {
+            errorPayload.message = res.error.message;
+          }
+
           if (err) {
             statusCode = 500;
           } else {
@@ -44,7 +54,7 @@ module.exports = function serviceRoutes() {
 
           // Set the proper status code for HTTP
           msg.response$.status(statusCode);
-          done(null, {error: err || res.error});
+          done(null, errorPayload);
         } else {
           done(null, res);
         }
