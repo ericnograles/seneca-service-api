@@ -477,7 +477,7 @@ seneca-log-filter@0.1.0:
   dependencies:
     lodash "4.15.0"
 
-seneca-transport@2.1.0:
+seneca-transport, seneca-transport@2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/seneca-transport/-/seneca-transport-2.1.0.tgz#06675938f3c6f20bf1b6fb4b54807ec9846b3ec7"
   dependencies:

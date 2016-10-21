@@ -20,6 +20,7 @@
     "express": "^4.14.0",
     "seneca": "^3.2.1",
     "seneca-amqp-transport": "^2.1.0",
+    "seneca-transport": "^2.1.0",
     "seneca-web": "^2.0.0",
     "seneca-web-adapter-express": "^1.0.2"
   }
