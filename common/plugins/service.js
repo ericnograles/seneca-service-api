@@ -28,7 +28,15 @@ module.exports = function serviceRoutes() {
         clientConfig.url = process.env.AMQP_URL || 'amqp://127.0.0.1';
         clientLibrary = 'seneca-amqp-transport';
       } else if (clientProtocol === 'tcp') {
-        clientConfig.port = msg.request$.query.port || 30301
+        var tcpConfigurations = require('../config/tcp');
+        var key = role.toUpperCase();
+        if (tcpConfigurations[key]) {
+          clientConfig.host = tcpConfigurations[key].HOST;
+          clientConfig.port = tcpConfigurations[key].PORT;
+        } else {
+          msg.response$.status(500);
+          return done(null, {message: 'Unrecognized service call'});
+        }
       }
 
       try {
