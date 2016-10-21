@@ -1,7 +1,7 @@
 {
-  "name": "lids-loyalty-main-api",
+  "name": "seneca-service-api",
   "version": "1.0.0",
-  "description": "The Main WebAPI for the Lids Loyalty PoC",
+  "description": "The main Web API for a Seneca microservice ecosystem",
   "main": "index.js",
   "scripts": {
     "start": "node index.js --seneca.log.error"
