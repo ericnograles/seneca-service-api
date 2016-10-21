@@ -36,6 +36,7 @@ While Seneca does support TCP and HTTP point-to-point microservices, it is of my
 ## Goals
 
 1. **Conventions-based service routing:** Developers should never touch this codebase save for one-off custom routes or infrastructure changes, such as logging and monitoring
+  * **Note**: Only applies for AMQP services
 1. **Standardized error handling**: Error payloads are well understood and can specify the HTTP status codes the Web API will return
 1. **Service client agnosticism**: Services can be over any protocol, be it HTTP, TCP, AMQP, or any other type of transport.
 
