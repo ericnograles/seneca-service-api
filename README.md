@@ -33,7 +33,7 @@ This is a sample of a Web API entrypoint into a microservice ecosystem.  This is
 
 ## Developer's Note
 
-While Seneca does support TCP and HTTP point-to-point microservices, it is of my opinion that a pure AMQP implementation is ideal.  I have this opinion for several reasons:
+While Seneca does support TCP and HTTP point-to-point microservices, I am of the opinion that a pure AMQP implementation is ideal for several reasons:
 
 1. Allows for a purely dynamic, conventions based development flow. Developers can release services at will, and as long as it follows the Service API's conventions, the Service API will never have to be altered
 1. AMQP offers durability.  If messages fail, they can be retried at a later time.  This is great for "push style" integrations, such as social media firehoses.
