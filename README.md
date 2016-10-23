@@ -33,11 +33,13 @@ This is a sample of a Web API entrypoint into a microservice ecosystem.  This is
 
 ## Developer's Note
 
-While Seneca does support TCP and HTTP point-to-point microservices, I am of the opinion that a pure AMQP implementation is ideal for several reasons:
+While Seneca does support TCP and HTTP point-to-point microservices, I am of the opinion that a pure AMQP/message broker implementation is ideal for several reasons:
 
 1. Allows for a purely dynamic, conventions based development flow. Developers can release services at will, and as long as it follows the Service API's conventions, the Service API will never have to be altered
-1. AMQP offers durability.  If messages fail, they can be retried at a later time.  This is great for "push style" integrations, such as social media firehoses.
+1. AMQP and similar message brokers offers durability.  If messages fail, they can be retried at a later time.  This is great for "push style" integrations, such as social media firehoses.
+  * AMQP in particular also offers features around guaranteed delivery and transactions. This is highly useful for many common "CRUD" type use cases.
 1. Easier infrastructure integration.  With a point-to-point system, you have to deal potentially with firewall and security concerns.  AMQP is a standard port and is designed for high throughput.
+1. Going point-to-point may also lead to unintended complexity.  In essence, developers might have to deal with things like durability and guaranteed delivery and "roll their own" solution vs. having it out of the box with a message broker.
 1. While some developers are concerned with the "hops" between the API to the MQ to the Service and back, the latency introduced is minimal.  Observed response times at load for a baseline call hovered at around 150ms.
 
 ## Conventions
@@ -49,7 +51,7 @@ While Seneca does support TCP and HTTP point-to-point microservices, I am of the
   * The first part of the path will be mapped to the `role` of a Seneca microservice
   * The second part of the path will be mapped to the `cmd` of a Seneca microservice
   * If no second part is specified, the `cmd` is defaulted to `index`
-* For this version, it is assumed that all services will be listening via AMQP
+  * **Example**: `/api/v1/twitter/tweets` = `role:twitter,cmd:tweets`
 * Calls made to services that do not exist will get a 500 HTTP status code
 * Calls made to commands in services that do not exist will get a 404 HTTP status code
 
