@@ -30,7 +30,8 @@ module.exports = function apiPlugin() {
       if (clientProtocol === 'amqp') {
         clientConfig.type = 'amqp';
         clientConfig.url = process.env.AMQP_URL || 'amqp://127.0.0.1';
-        clientLibrary = 'seneca-amqp-transport';
+        //clientLibrary = 'seneca-amqp-transport';
+        clientLibrary = require('../../seneca-amqp-transport');
       } else if (clientProtocol === 'tcp') {
         var tcpConfigurations = require('../common/config/tcp');
         var key = role.toUpperCase();
