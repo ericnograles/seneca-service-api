@@ -1,34 +1,38 @@
 'use strict';
 
-module.exports = function serviceRoutes() {
+module.exports = function apiPlugin() {
   var seneca = this;
 
-  seneca.add('role:service,cmd:*', (msg, done) => {
+  seneca.add('role:api,cmd:*', (msg, done) => {
     // TODO: Why does .json not work from body parser?
     var body = JSON.parse(msg.args.body || "{}");
     var params = msg.args.params[0].split('/');
 
-    if (params.length > 2) {
+    if (params.length > 3) {
       msg.response$.status(500);
-      done(null, {message: 'Unrecognized path'});
+      done(null, {message: 'Unsupported path'});
     } else {
-      // Convention: the role is the first parameter, the command is the second
-      // If there is no command specified, we send the payload to the "index" command of the role in question
-      var role = params[0];
-      var cmd = params.length > 1 ? params[1] : 'index';
-      var pin = `role:${role},cmd:${cmd}`;
-      var clientProtocol = msg.request$.query.protocol || 'amqp';
+      // Convention: the version is the first parameter, the role is the second parameter, the command is the third parameter
+      // At a minimum, the path must be two deep, specifying a version and role.  If no role is specified in the path, we default to "index"
+      // Finally, we also specify what method was passed in
+      var version = params[0];
+      var role = params[1];
+      var cmd = params.length > 2 ? params[2] : 'index';
+      var method = msg.request$.method;
+      var pin = `role:${role},version:${version},cmd:${cmd},method:${method}`;
+
+      var clientProtocol = msg.request$.headers['x-service-protocol'] || 'local';
       var clientConfig = {
-        pin: pin,
-        type: clientProtocol
+        pin: pin
       };
       var clientLibrary = 'seneca-transport';
 
       if (clientProtocol === 'amqp') {
+        clientConfig.type = 'amqp';
         clientConfig.url = process.env.AMQP_URL || 'amqp://127.0.0.1';
         clientLibrary = 'seneca-amqp-transport';
       } else if (clientProtocol === 'tcp') {
-        var tcpConfigurations = require('../config/tcp');
+        var tcpConfigurations = require('../common/config/tcp');
         var key = role.toUpperCase();
         if (tcpConfigurations[key]) {
           clientConfig.host = tcpConfigurations[key].HOST;
@@ -41,17 +45,25 @@ module.exports = function serviceRoutes() {
 
       try {
         // Configure the client
-        var client = require('seneca')()
-          .use(clientLibrary)
-          .client(clientConfig);
+        var client;
+        if (clientProtocol !== 'local') {
+          client = require('seneca')()
+            .use(clientLibrary)
+            .client(clientConfig);
+        } else {
+          // A call to a handler inside this process
+          client = this;
+        }
 
         client.act(pin, {
-          method: msg.request$.method,
           query: msg.request$.query,
+          headers: msg.request$.headers,
           data: body.data
         }, (err, res) => {
           // Warning: not doing a client.close() leaves the response queue hanging
-          client.close();
+          if (clientProtocol !== 'local') {
+            client.close();
+          }
 
           // FYI, done(err) will bring down the entire process, use with care
           if (err || res.error) {

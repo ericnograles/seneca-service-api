@@ -5,12 +5,14 @@ var Express = require('express');
 var Web = require('seneca-web');
 var BodyParser = require('body-parser');
 var Routes = require('./common/routes');
-var ServicePlugin = require('./common/plugins/service');
-var CustomPlugin = require('./common/plugins/custom');
+var APIPlugin = require('./plugins/api');
+var UserPlugin = require('./plugins/user');
 
 var app = Express();
 app.use(BodyParser.json({ type: 'application/*json' }));
 app.use(BodyParser.urlencoded({extended: true}));
+
+// TODO: Add Passport support and point handler to our OAuth handler
 
 var config = {
   routes: Routes,
@@ -19,8 +21,8 @@ var config = {
 };
 
 var seneca = Seneca()
-  .use(ServicePlugin)
-  .use(CustomPlugin)
+  .use(APIPlugin)
+  .use(UserPlugin)
   .use(Web, config)
   .ready(() => {
     var server = seneca.export('web/context')();
