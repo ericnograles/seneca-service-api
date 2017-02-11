@@ -137,9 +137,8 @@ function APIPlugin() {
   }
 
   /**
-   * handleError will sanitize an error output if it is detected.  It will also invalidate a user's JWT in our local
-   * redis cache if a 401 is returned from any service interaction. Note that this might not apply to future service integrations
-   * and may need refinement.
+   * handleError will sanitize an error output if it is detected.
+   * If you implement some sort of auth provider, this is probably where you'd invalidate a token in case of a 401 for your auth service
    * @param error
    * @param statusCode
    * @param msg
